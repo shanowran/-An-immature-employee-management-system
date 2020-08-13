@@ -19,7 +19,8 @@ public class 系统 {
         System.out.print(" 1.查询员工信息\n");
         System.out.print(" 2.删除员工信息\n");
         System.out.print(" 3.增加员工信息\n");
-        System.out.print(" 4.退出系统\n");
+        System.out.print(" 4.修改员工信息\n");
+        System.out.print(" 5.退出系统\n");
         System.out.print("----------------\n");
         System.out.print("输入选项：");
         choice = scan.nextInt();
@@ -28,6 +29,7 @@ public class 系统 {
             case 1:chaxun();break;
             case 2:delete();break;
             case 3:add();break;
+            case 4:gai();break;
             default:System.out.print("您已退出，再见");System.exit(0);
         }
 
@@ -103,12 +105,12 @@ public class 系统 {
            Scanner scan = new Scanner(System.in);
            System.out.print("输入员工id：");
            int a = scan.nextInt();
-           sql = "delete from employee where id=+a+";
+           sql = "delete from employee where id="+a+"";
            int i = stmt.executeUpdate(sql);
            if (i == 1) {
-               System.out.print("删除成功");
+               System.out.print("删除成功\n");
            } else {
-               System.out.print("删除失败");
+               System.out.print("删除失败\n");
            }
        } catch (ClassNotFoundException e) {
            e.printStackTrace();
@@ -137,9 +139,40 @@ public class 系统 {
             sql = "insert into employee(id,name,age,salary,department)value(" + addid + ",'" + addname + "'," + addage + "," + addsalary + "," + adddepartment + ")";
             int j = stmt.executeUpdate(sql);
             if (j == 1) {
-                System.out.print("添加成功");
+                System.out.print("添加成功\n");
             } else {
-                System.out.print("添加失败");
+                System.out.print("添加失败\n");
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void gai()
+    {
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = conn.createStatement();
+            Scanner scan = new Scanner(System.in);
+            System.out.print("请输入修改后员工信息\n");
+            System.out.print("要修改的员工id：");
+            int gid = scan.nextInt();
+            System.out.print("修改后员工名字：");
+            String gname = scan.next();
+            System.out.print("修改后员工年龄：");
+            int gage = scan.nextInt();
+            System.out.print("修改后员工工资：");
+            int gsalary = scan.nextInt();
+            System.out.print("修改后员工部门：");
+            int gp = scan.nextInt();
+            sql = "update employee set name='" + gname + "',age=" + gage + ",salary=" + gsalary + ",department=" + gp + " where id=" + gid + "";
+            int k = stmt.executeUpdate(sql);
+            if (k == 1) {
+                System.out.print("修改成功\n");
+            } else {
+                System.out.print("修改失败\n");
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
